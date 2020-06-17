@@ -56,3 +56,15 @@ model.add(Dense(2, activation='softmax')) # 2 because we have cat and dog classe
 
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 model.summary()
+
+
+'''To prevent over fitting we will stop the learning after 10 epochs'''
+earlystop = EarlyStopping(patience=10)
+
+'''Reduce the learning rate when then accuracy has not increased for 2 steps'''
+learning_rate_reduction = ReduceLROnPlateau(monitor='val_acc',
+                                            patience=2,
+                                            verbose=1,
+                                            factor=0.5,
+                                            min_lr=0.00001)
+callbacks = [earlystop, learning_rate_reduction]
