@@ -15,3 +15,17 @@ IMAGE_HEIGHT = 128
 IMAGE_SIZE = (IMAGE_WIDTH, IMAGE_HEIGHT)
 IMAGE_CHANNELS = 3
 BATCH_SIZE = 15
+
+'''Preparing data'''
+filenames = os.listdir("../data/train")
+categories = []
+for filename in filenames:
+    category = filename.split('.')[0]
+    if category == 'dog':
+        categories.append(1)
+    else:
+        categories.append(0)
+
+df = pd.DataFrame({'filename': filenames, 'category': categories})
+print(df.head())
+print(df.tail())) 
