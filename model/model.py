@@ -78,3 +78,34 @@ validate_df = validate_df.reset_index(drop=True)
 total_train = train_df.shape[0]
 total_validate = validate_df.shape[0]
 print(df.head())
+
+
+'''Training image data preprocessing'''
+train_datagen = ImageDataGenerator(
+    rotation_range = 15,
+    rescale = 1./255,
+    shear_range = 0.1,
+    zoom_range = 0.2,
+    horizontal_flip = True,
+    width_shift_range = 0.1,
+    height_shift_range = 0.1)
+
+train_generator = train_datagen.flow_from_dataframe(
+    train_df,
+    "../input/train",
+    x_col = 'filename',
+    y_col = 'category',
+    target_size = IMAGE_SIZE,
+    class_mode = 'categorical',
+    batch_size = BATCH_SIZE)
+
+'''Validation image data preprocessing'''
+validation_datagen = ImageDataGenerator(rescale=1./255)
+validation_generator = validation_datagen.flow_from_dataframe(
+    validate_df,
+    "../input/train/train/",
+    x_col = 'filename',
+    y_col = 'category',
+    target_size = IMAGE_SIZE,
+    class_mode = 'categorical',
+    batch_size = BATCH_SIZE)
