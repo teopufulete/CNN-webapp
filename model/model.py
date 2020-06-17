@@ -109,3 +109,17 @@ validation_generator = validation_datagen.flow_from_dataframe(
     target_size = IMAGE_SIZE,
     class_mode = 'categorical',
     batch_size = BATCH_SIZE)
+
+
+'''Fit model'''
+epochs = 3 if FAST_RUN else 50
+history = model.fit_generator(
+    train_generator,
+    epochs = epochs,
+    validation_data = validation_generator,
+    validation_steps = total_validate//BATCH_SIZE,
+    steps_per_epoch = total_train//BATCH_SIZE,
+    callbacks = callbacks)
+
+'''Save the weights'''
+model.save_weights("model.h5")
