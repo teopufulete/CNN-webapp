@@ -139,3 +139,21 @@ ax2.set_xticks(np.arange(1, epochs, 1))
 legend = plt.legend(loc='best', shadow=True)
 plt.tight_layout()
 plt.show()
+
+
+'''Prepare testing data'''
+test_filenames = os.listdir("../data/test1")
+test_df = pd.DataFrame({'filename': test_filenames})
+nb_samples = test_df.shape[0]
+
+'''Create test generator'''
+test_gen = ImageDataGenerator(rescale=1./255)
+test_generator = test_gen.flow_from_dataframe(
+    test_df,
+    "../data/test1/",
+    x_col = 'filename',
+    y_col = None,
+    class_mode = None,
+    target_size = IMAGE_SIZE,
+    batch_size = BATCH_SIZE,
+    shuffle = False)
