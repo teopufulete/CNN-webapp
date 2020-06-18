@@ -157,3 +157,21 @@ test_generator = test_gen.flow_from_dataframe(
     target_size = IMAGE_SIZE,
     batch_size = BATCH_SIZE,
     shuffle = False)
+
+
+'''Predict'''
+predict = model.predict_generator(test_generator, steps = np.ceil(nb_samples/BATCH_SIZE))
+
+'''See predicted results along with the images'''
+sample_test = test_df.head(18)
+sample_test.head()
+plt.figure(figsize = (12, 24))
+for index, row in sample_test.iterrows():
+    filename = row['filename']
+    category = row['field']
+    img = load_img("../data/test1/"+filename, target_size=IMAGE_SIZE)
+    plt.subplot(6, 3, index+1)
+    plt.imshow(img)
+    plt.xlabel(filename + '(' + "{}".format(category) + ')' )
+plt.tight_layout()
+plt.show()
